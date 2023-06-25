@@ -1,4 +1,4 @@
-only had a bit of free time before I go study for an exam tom, here's what I have an idea so far of what we could do:
+
 
 1.) Use this code as our main reference/source of code: https://www.scaler.com/topics/dfs-python/
 
