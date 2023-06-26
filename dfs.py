@@ -67,7 +67,7 @@ if __name__ == "__main__":
         child_node = input("Enter child node: ")
         dfs_graph.add_child(parent_node, child_node)
 
-        print("\nCurrent Graph: ")
+        print("Current Graph: ")
         dfs_graph.print_current_graph()
         print("\n") 
 
