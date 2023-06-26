@@ -1,7 +1,7 @@
 
-# REFERENCE: https://www.scaler.com/topics/dfs-python/
+# REFERENCES
 
-# code with start node to goal node
+# https://www.scaler.com/topics/dfs-python/
 # https://stackabuse.com/courses/graphs-in-python-theory-and-implementation/lessons/depth-first-search-dfs-algorithm/ 
 
 
@@ -17,44 +17,45 @@ TO DO
  [/] terminate the code to exit
 """
 
-
 class Graph:
+    # initializing
     def __init__(self):
         self.graph = {}
 
-    def dfs(self, node):
-        visited = set()
-        self.visited(start_node, visited)
+    # dfs traversal
+    # entry point for dfs traversal
+    def dfs(self, start_node):
+        visited = set() # initializes a set for the visitetd nodes
+        self.visited(start_node, visited) # calls visited function
 
+    # visited function
+    # adds the current node to the visited set to mark that node as "visited" (also serves as the path)
     def visited(self, node, visited):
         visited.add(node)
         print(node, end=' ')
 
+        # if the node has a child, it check if its in the visited set,
+        # if not, it will call the visited function and pass the child to the visited set
         if node in self.graph:
             for child in self.graph[node]:
                 if child not in visited:
                     self.visited(child, visited)
 
+    # adds the child of a parent node
     def add_child(self, parent_node, child_node):
+        # if the parent node is not in the graph, it will be added there
         if parent_node not in self.graph:
             self.graph[parent_node] = []
+        # else, the child_node is appended to the list of the parent node's children
         self.graph[parent_node].append(child_node)
     
-    def print_adjacency_list(self):
+    # prints the current graph
+    def print_current_graph(self):
         for parent_node, children in self.graph.items():
             print(f"{parent_node}: {', '.join(children)}")
 
 
 if __name__ == "__main__":
-
-    # Graph of nodes
-    # graph = {
-    #     0: [2],
-    #     1: [2, 3],
-    #     2: [0, 1, 4],
-    #     3: [1, 4],
-    #     4: [2, 3]
-    # }
 
     dfs_graph = Graph()
 
@@ -67,7 +68,7 @@ if __name__ == "__main__":
         dfs_graph.add_child(parent_node, child_node)
 
         print("\nCurrent Graph: ")
-        dfs_graph.print_adjacency_list()
+        dfs_graph.print_current_graph()
         print("\n") 
 
     start_node = input("\nEnter the start node for DFS traversal: ")
