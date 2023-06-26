@@ -1,41 +1,77 @@
 
-# REFERENCE: https://www.scaler.com/topics/dfs-python/
+# REFERENCES
 
-# code with start node to goal node
+# https://www.scaler.com/topics/dfs-python/
 # https://stackabuse.com/courses/graphs-in-python-theory-and-implementation/lessons/depth-first-search-dfs-algorithm/ 
+
 
 """
 TO DO
- [] get input from user
- [] start node and goal node (kase we need to find the optimal find to start node to goal node)
- [] showcase the existing graph
+ legend: [x] done || [/] not sure kung tama ba
+
+ [x] get input from user
+ [x] start node
+ [] goal node (kase we need to find the optimal find to start node to goal node)
+ [x] showcase the existing graph
  [] edit the existing nodes
- [] terminate the code to exit
+ [/] terminate the code to exit
 """
 
+class Graph:
+    # initializing
+    def __init__(self):
+        self.graph = {}
 
-def dfs(node, graph, visited, component):
-    component.append(node)  # Store answer
-    visited[node] = True  # Mark visited
+    # dfs traversal
+    # entry point for dfs traversal
+    def dfs(self, start_node):
+        visited = set() # initializes a set for the visitetd nodes
+        self.visited(start_node, visited) # calls visited function
 
-    # Traverse to each adjacent node of a node
-    for child in graph[node]:
-        if not visited[child]:  # Check whether the node is visited or not
-            dfs(child, graph, visited, component)  # Call the dfs recursively
+    # visited function
+    # adds the current node to the visited set to mark that node as "visited" (also serves as the path)
+    def visited(self, node, visited):
+        visited.add(node)
+        print(node, end=' ')
+
+        # if the node has a child, it check if its in the visited set,
+        # if not, it will call the visited function and pass the child to the visited set
+        if node in self.graph:
+            for child in self.graph[node]:
+                if child not in visited:
+                    self.visited(child, visited)
+
+    # adds the child of a parent node
+    def add_child(self, parent_node, child_node):
+        # if the parent node is not in the graph, it will be added there
+        if parent_node not in self.graph:
+            self.graph[parent_node] = []
+        # else, the child_node is appended to the list of the parent node's children
+        self.graph[parent_node].append(child_node)
+    
+    # prints the current graph
+    def print_current_graph(self):
+        for parent_node, children in self.graph.items():
+            print(f"{parent_node}: {', '.join(children)}")
 
 
 if __name__ == "__main__":
 
-    # Graph of nodes
-    graph = {
-        0: [2],
-        1: [2, 3],
-        2: [0, 1, 4],
-        3: [1, 4],
-        4: [2, 3]
-    }
-    node = 0  # Starting node
-    visited = [False]*len(graph)  # Make all nodes to False initially
-    component = []
-    dfs(node, graph, visited, component)  # Traverse to each node of a graph
-    print(f"Following is the Depth-first search: {component}")  # Print the answer
+    dfs_graph = Graph()
+
+    while True:
+        parent_node = input("Enter parent node (or 'x' to quit): ")
+        if parent_node == "x":
+            break
+
+        child_node = input("Enter child node: ")
+        dfs_graph.add_child(parent_node, child_node)
+
+        print("Current Graph: ")
+        dfs_graph.print_current_graph()
+        print("\n") 
+
+    start_node = input("\nEnter the start node for DFS traversal: ")
+
+    print("\nFollowing is the Depth-first search: ")
+    dfs_graph.dfs(start_node)
