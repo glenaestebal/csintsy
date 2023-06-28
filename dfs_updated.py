@@ -25,32 +25,34 @@ class Graph:
     # dfs traversal
     # entry point for dfs traversal
     def dfs(self, start_node, goal_node):
-        visited = set() # initializes a set for the visitetd nodes
-        self.visited(start_node, visited) # calls visited function
-        
+        visited = set()  # initializes a set for the visited nodes
+        found_goal = False  # flag to track if the goal node is found
+        self.visited(start_node, goal_node, visited, found_goal)  # calls visited function
+
     # visited function
     # adds the current node to the visited set to mark that node as "visited" (also serves as the path)
-    def visited(self, node, visited):
+    def visited(self, node, goal_node, visited, found_goal):
         visited.add(node)
         print(node, end=' ')
 
-        # if the node has a child, it check if its in the visited set,
+        if node == goal_node:  # Check if the current node is the goal node
+            print(goal_node, "\nFound the goal node!")
+            found_goal = True  # Set the flag to True to stop further exploration
+            return
+
+        # if the node has a child, it checks if it's in the visited set,
         # if not, it will call the visited function and pass the child to the visited set
-        if node in self.graph:
+        if node in self.graph and not found_goal:
             for child in self.graph[node]:
-                if child == goal_node:
-                    print(goal_node, "\nFound the goal node!")
-                elif child not in visited:
-                    self.visited(child, visited)
+                if child not in visited and not found_goal:
+                    self.visited(child, goal_node, visited, found_goal)
 
     # adds the child of a parent node
     def add_child(self, parent_node, child_node):
-        # if the parent node is not in the graph, it will be added there
         if parent_node not in self.graph:
             self.graph[parent_node] = []
-        # else, the child_node is appended to the list of the parent node's children
         self.graph[parent_node].append(child_node)
-    
+
     # prints the current graph
     def print_current_graph(self):
         for parent_node, children in self.graph.items():
@@ -61,13 +63,14 @@ class Graph:
         print("[b] See current graph")
         print("[c] DFS Search")
         print("[d] Exit the program")
-        
+
+
 if __name__ == "__main__":
     dfs_graph = Graph()
-    
+
     dfs_graph.menu()
     option = input("\nEnter your option: ")
-    while option!= "d":
+    while option != "d":
         if option == "a":
             parent_node = input("\nEnter parent node: ")
             child_node = input("Enter child node: ")
@@ -86,6 +89,6 @@ if __name__ == "__main__":
         print()
         dfs_graph.menu()
         option = input("\nEnter your option: ")
-        
+
     print("Terminating code. Goodbye!")
 
