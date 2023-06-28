@@ -48,10 +48,17 @@ class Graph:
                     self.visited(child, goal_node, visited, found_goal)
 
     # adds the child of a parent node
-    def add_child(self, parent_node, child_node):
+    def add_child(self, parent_node, child_node, position=None):
         if parent_node not in self.graph:
             self.graph[parent_node] = []
-        self.graph[parent_node].append(child_node)
+        children = self.graph[parent_node]
+        
+        if position is None:
+            children.append(child_node)  # Append child node at the end if position is not specified
+        else:
+            children.insert(position, child_node)  # Insert child node at the specified position
+        
+        self.graph[parent_node] = children
 
     # prints the current graph
     def print_current_graph(self):
@@ -74,7 +81,10 @@ if __name__ == "__main__":
         if option == "a":
             parent_node = input("\nEnter parent node: ")
             child_node = input("Enter child node: ")
-            dfs_graph.add_child(parent_node, child_node)
+            position = input("Enter the position to insert the child node (optional): ")
+            if position:
+                position = int(position)
+            dfs_graph.add_child(parent_node, child_node, position)
         elif option == "b":
             print("\nCurrent Graph: ")
             dfs_graph.print_current_graph()
