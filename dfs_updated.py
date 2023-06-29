@@ -34,7 +34,7 @@ class Graph:
         if found:
             print("\n\nFound the goal node \"" + goal_node + "\"")
         else:
-            print("\nGoal node was not found.")
+            print("\n\nGoal node was not found.")
 
     # visited function
     # adds the current node to the visited set to mark that node as "visited" (also serves as the path)
