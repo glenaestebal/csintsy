@@ -38,7 +38,7 @@ class Graph:
 
     # visited function
     # adds the current node to the visited set to mark that node as "visited" (also serves as the path)
-    def visited(self, node, goal_node, visited, found_goal):
+    def visited(self, node, goal_node, visited):
         visited.append(node)
 
         if node == goal_node:  # Check if the current node is the goal node
@@ -66,29 +66,54 @@ class Graph:
         
         self.graph[parent_node] = children
 
+    def remove_node(self, node):
+        if node in self.graph:
+            self.graph.pop(node)
+        for i in self.graph:
+            for j in range(len(self.graph[i])):
+                if self.graph[i][j] == node:
+                    self.graph[i].pop(j)
+        
+
+    def edit_node(self, new_node, old_node):
+        if old_node in self.graph:
+            self.graph[new_node] = self.graph[old_node]
+            self.graph.pop(old_node)
+        for i in self.graph:
+            for j in range(len(self.graph[i])):
+                if self.graph[i][j] == old_node:
+                    self.graph[i][j] = new_node
+ 
     # prints the current graph
     def print_current_graph(self):
         for parent_node, children in self.graph.items():
             print(f"{parent_node} -> {', '.join(children)}")
 
     def menu(self):
-        print("[a] Input nodes")
-        print("[b] See current graph")
-        print("[c] DFS Search")
-        print("[d] Exit the program")
+        print("[a] Add node")
+        print("[b] Delete node")
+        print("[c] Edit node")
+        print("[d] See current graph")
+        print("[e] DFS Search")
+        print("[f] Exit the program")
         option = input("\nEnter your option: ")
-        while option != "d":
+        while option != "f":
             if option == "a":
                 parent_node = input("\nEnter parent node: ")
                 child_node = input("Enter child node: ")
                 position = input("Enter the position to insert the child node (optional): ")
-                if position:
-                    position = int(position)
                 dfs_graph.add_child(parent_node, child_node, position)
             elif option == "b":
+                chosen_node = input("\nEnter node to delete: ")
+                dfs_graph.remove_node(chosen_node)
+            elif option == "c":
+                old_node = input("\nEnter node to edit: ")
+                new_node = input("Enter new node value: ")
+                dfs_graph.edit_node(new_node, old_node)
+            elif option == "d":
                 print("\nCurrent Graph: ")
                 dfs_graph.print_current_graph()
-            elif option == "c":
+            elif option == "e":
                 start_node = input("\nEnter the start node for DFS traversal: ")
                 goal_node = input("\nEnter the goal node for DFS traversal: ")
 
@@ -97,10 +122,12 @@ class Graph:
             else:
                 print("Invalid option!")
             print()
-            print("[a] Input nodes")
-            print("[b] See current graph")
-            print("[c] DFS Search")
-            print("[d] Exit the program")
+            print("[a] Add node")
+            print("[b] Delete node")
+            print("[c] Edit node")
+            print("[d] See current graph")
+            print("[e] DFS Search")
+            print("[f] Exit the program")
             option = input("\nEnter your option: ")
 
 
