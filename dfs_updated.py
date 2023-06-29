@@ -31,8 +31,9 @@ class Graph:
             print(list(visited)[i], end=' ')
             if i != len(visited)-1:
                 print("->", end=' ')
-        print("\n\nFound the goal node \"" + goal_node + "\"")
-        if not found:
+        if found:
+            print("\n\nFound the goal node \"" + goal_node + "\"")
+        else:
             print("\nGoal node was not found.")
 
     # visited function
