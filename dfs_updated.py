@@ -70,9 +70,9 @@ class Graph:
         if node in self.graph:
             self.graph.pop(node)
         for i in self.graph:
-            for j in range(len(self.graph[i])):
-                if self.graph[i][j] == node:
-                    self.graph[i].pop(j)
+            count = self.graph[i].count(node)
+            for j in range (count):
+                self.graph[i].remove(node)
         
 
     def edit_node(self, new_node, old_node):
